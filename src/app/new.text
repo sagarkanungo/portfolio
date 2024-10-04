@@ -1,0 +1,336 @@
+[
+  {
+    $addFields: {
+      bookingDate: {
+        $dateFromString: {
+          dateString: "$Booking Date",
+          format: "%Y-%m-%d",
+        }
+      }
+    }
+  },
+  {
+    "$match": {
+      "$expr": {
+        "$and": [
+          { "$eq": [{ "$year": { "$toDate": "$Booking Date" } }, 
+             {{select2.value}}]  
+          },
+        ]
+      }
+    }
+  },
+    {
+    $group: {
+      _id: { $month: { $toDate: "$bookingDate" } },
+      totalBookings: { $sum: 1 }
+    }
+  },
+    {
+    $project: {
+      month: "$_id",
+      totalBookings: 1,
+      _id: 0
+    }
+  },
+  {
+    $sort: { month: 1 }
+  }
+]
+
+
+function isLeapYear() {
+  const year = new Date().getFullYear();
+  return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+}
+
+
+
+const daysInMonth = {
+  1: 31,
+  2: isLeapYear() ? 29 : 28,
+  3: 31,
+  4: 30,
+  5: 31,
+  6: 30,
+  7: 31,
+  8: 31,
+  9: 30,
+  10: 31,
+  11: 30,
+  12: 31
+};
+
+const slotsPerDay = 84;
+const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+
+function bookableSlots () {
+  let totalSlots = 0
+  return data.map((val)=> {
+    const totalBookableSlots = slotsPerDay * daysInMonth[val.month]
+    totalSlots+=totalBookableSlots
+    
+    return {
+      month: months[val.month - 1],
+      total: totalBookableSlots,
+    }
+  }).map((val)=>{
+    const percentage = val.total/totalSlots*100
+    return{...val,  percentage: percentage.toFixed(2)}
+  })
+}
+
+function bookingsSlots(){
+  const totalAvailableSlots = data.reduce((previous, current) => previous + current.totalBookings,0);
+  return data.map((val)=> {
+    const percentage = val.totalBookings/totalAvailableSlots*100
+    return {
+      month: months[val.month - 1],
+      total: val.totalBookings,
+      percentage: percentage.toFixed(2)
+    }
+  })
+}
+
+const bookableData = bookableSlots();
+const bookingsData = bookingsSlots();
+
+const slotData = [
+  { label: "Booked", value: [...bookingsData]},
+  { label: "Available Slots", value: [...bookableData]}
+];
+
+console.log(slotData)
+return slotData;
+
+
+
+[
+    {
+    "name": "Total Bookings",
+    "x": {{getBookingSlotsEachMonthsCombo.data[0].value.map((val) => val.month)}},
+    "y": {{getBookingSlotsEachMonthsCombo.data[0].value.map((val) => val.total)}},
+    "type": "bar",
+    "text": {{getBookingSlotsEachMonthsCombo.data[0].value.map((val) => val.percentage)}}, 
+    "hovertemplate": "<b>%{value} Bookings %{label}</b><br>%{text}<extra></extra>",
+    "marker": {
+      "color": "#FFA500"
+    }
+  },
+  {
+    "name": "Toatal Bookable",
+    "x": {{getBookingSlotsEachMonthsCombo.data[1].value.map((val) => val.month)}},
+    "y": {{getBookingSlotsEachMonthsCombo.data[1].value.map((val) => val.total)}},
+    "type": "bar",
+    "text": {{getBookingSlotsEachMonthsCombo.data[1].value.map((val) => val.percentage)}}, 
+    "hovertemplate": "<b>%{value} Bookable %{label}</b><br>%{text}<extra></extra>",
+  },
+  {
+    "marker": {
+      "color": "#5E3A8A"
+    }
+  }
+]
+_____________________-----------06/06/2024---------------_________
+
+[
+  {
+    $addFields: {
+      bookingDate: {
+        $dateFromString: {
+          dateString: "$Booking Date",
+          format: "%Y-%m-%d",
+        }
+      }
+    }
+  },
+  {
+    "$match": {
+      "$expr": {
+        "$and": [
+          { "$eq": [{ "$year": { "$toDate": "$Booking Date" } }, 
+             {{select1.value}}]  
+          },
+        ]
+      }
+    }
+  },
+    {
+    $group: {
+      _id: { $month: { $toDate: "$bookingDate" } },
+      totalBookings: { $sum: 1 }
+    }
+  },
+    {
+    $project: {
+      month: "$_id",
+      totalBookings: 1,
+      _id: 0
+    }
+  },
+  {
+    $sort: { month: 1 }
+  }
+]
+--------------------------------------------
+
+status 4 query
+
+[
+
+    {
+        $group: {
+            _id: "$Booking Confirmation",
+            created: {
+                $sum: {
+                    $cond: [{ $eq: ["$Description", "Group Booking Created"] }, 1, 0]
+                }
+            },
+            moved: {
+                $sum: {
+                    $cond: [{ $eq: ["$Description", "Group Booking Moved"] }, 1, 0]
+                }
+            },
+            cancelled: {
+                $sum: {
+                    $cond: [{ $eq: ["$Description", "Group Booking Cancelled"] }, 1, 0]
+                }
+            },
+            updated: {
+                $sum: {
+                    $cond: [{ $eq: ["$Description", "Group Booking Updated"] }, 1, 0]
+                }
+            }
+        }
+    },
+    {
+        $project: {
+            _id: 0,
+            BookingConfirmation: "$_id",
+            Statuses: {
+                Created: "$created",
+                Moved: "$moved",
+                Cancelled: "$cancelled",
+                Updated: "$updated"
+            }
+        }
+    }
+]
+--------------------------
+db.collection.aggregate([
+    {
+        $group: {
+            _id: "$Booking Confirmation",
+            created: {
+                $sum: {
+                    $cond: [{ $eq: ["$Description", "Group Booking Created"] }, 1, 0]
+                }
+            },
+            moved: {
+                $sum: {
+                    $cond: [{ $eq: ["$Description", "Group Booking Moved"] }, 1, 0]
+                }
+            },
+            cancelled: {
+                $sum: {
+                    $cond: [{ $eq: ["$Description", "Group Booking Cancelled"] }, 1, 0]
+                }
+            },
+            updated: {
+                $sum: {
+                    $cond: [{ $eq: ["$Description", "Group Booking Updated"] }, 1, 0]
+                }
+            }
+        }
+    },
+    {
+        $group: {
+            _id: null,
+            totalCreated: { $sum: "$created" },
+            totalMoved: { $sum: "$moved" },
+            totalCancelled: { $sum: "$cancelled" },
+            totalUpdated: { $sum: "$updated" }
+        }
+    },
+    {
+        $project: {
+            _id: 0,
+            totalCreated: {
+                title: "Total Created",
+                count: "$totalCreated"
+            },
+            totalMoved: {
+                title: "Total Moved",
+                count: "$totalMoved"
+            },
+            totalCancelled: {
+                title: "Total Cancelled",
+                count: "$totalCancelled"
+            },
+            totalUpdated: {
+                title: "Total Updated",
+                count: "$totalUpdated"
+            }
+        }
+    }
+]);
+----------------------------------------------------------------------------
+
+[
+    {
+        "$match": {
+            "Description": {
+                "$regex": ".*(Created|Moved|Cancelled|Updated).*"
+            }
+        }
+    },
+    {
+        "$group": {
+            "_id": null,
+            "totalCreated": {
+                "$sum": {
+                    "$cond": [{ "$regexMatch": { "input": "$Description", "regex": "Created" } }, 1, 0]
+                }
+            },
+            "totalMoved": {
+                "$sum": {
+                    "$cond": [{ "$regexMatch": { "input": "$Description", "regex": "Moved" } }, 1, 0]
+                }
+            },
+            "totalCancelled": {
+                "$sum": {
+                    "$cond": [{ "$regexMatch": { "input": "$Description", "regex": "Cancelled" } }, 1, 0]
+                }
+            },
+            "totalUpdated": {
+                "$sum": {
+                    "$cond": [{ "$regexMatch": { "input": "$Description", "regex": "Updated" } }, 1, 0]
+                }
+            }
+        }
+    },
+    {
+        "$project": {
+            "_id": 0,
+            "data": [
+                {
+                    "title": "Created",
+                    "count": "$totalCreated"
+                },
+                {
+                    "title": "Moved",
+                    "count": "$totalMoved"
+                },
+                {
+                    "title": "Cancelled",
+                    "count": "$totalCancelled"
+                },
+                {
+                    "title": "Updated",
+                    "count": "$totalUpdated"
+                }
+            ]
+        }
+    }
+]
