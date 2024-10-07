@@ -60,7 +60,7 @@ function Banner() {
         <br />
         In addition to my technical skills, I thrive in collaborative
         environments where I can work closely with designers and stakeholders
-        to deliver exceptional user experiences. Let's connect and build
+        to deliver exceptional user experiences. Let&apos;s connect and build
         something amazing together!
       </p>
       <div className="flex justify-center lg:justify-start space-x-5 my-4 animate-slideIn">
