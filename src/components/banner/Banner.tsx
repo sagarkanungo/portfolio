@@ -23,7 +23,7 @@ function Banner() {
 
   useEffect(() => {
     const typed = new Typed(el.current, {
-      strings: ["Frontend Developer", "Backend Developer", "MongoDB Expert"],
+      strings: ["Frontend Developer", "Backend Developer", "UI/UX Designer", "React Developer", "Web Designer"],
       startDelay: 100,
       typeSpeed: 70,
       backSpeed: 10,
@@ -42,7 +42,6 @@ function Banner() {
   style={{ backgroundSize: "cover" }}
   className="main-container flex flex-col-reverse lg:flex-row items-center justify-center p-5 lg:p-10 mt-16 md:mt-0" 
 >
-  {/* Text Section */}
   <div className="w-full flex justify-center text-white p-5 lg:w-1/2">
     <div className="text-center lg:text-left space-y-5 lg:space-y-3">
       <h3 className="text-2xl font-semibold font-serif">Hi, I am</h3>

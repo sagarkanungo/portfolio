@@ -2,7 +2,7 @@ import Link from "next/link";
 import React from "react";
 import Image from "next/image";
 import banner_wallpaper from "../../../public/banner_wallpaper.svg";
-import personImage from "../../../public/aboutImage.jpg";
+import personImage from "../../../public/IMG_20200130_133557_183.jpg";
 import { url } from "inspector";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {

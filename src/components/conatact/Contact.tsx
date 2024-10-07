@@ -53,7 +53,7 @@ function Contact() {
     <div id="contact" className="flex flex-col items-center p-8 gap-8">
       <div className="w-full h-auto text-center">
         <h1 className="text-4xl font-bold font-serif text-gray-100">Get in Touch</h1>
-        <p className="text-gray-400 mt-2">I'd love to hear from you! Feel free to drop a message.</p>
+        <p className="text-gray-400 mt-2">I&apos;d  love to hear from you! Feel free to drop a message.</p>
       </div>
 
       <div className="bg-slate-950 shadow-lg rounded-lg p-8 w-full max-w-lg transition-all hover:shadow-2xl">
