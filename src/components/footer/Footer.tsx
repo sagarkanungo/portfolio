@@ -1,100 +1,37 @@
 import Link from 'next/link'
 import React from 'react'
+import {
+
+  faLinkedinIn,
+} from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function Footer() {
   return (
-    <div className="p-5 border border-gray-500  bg-gray-900 flex flex-col lg:flex-row 
-    justify-between items-start lg:items-center lg:px-72 ">
-      <div className="mb-4 lg:mb-0">
-        <p className='font-serif'>
-          @2024 Sagar Kanungo <span>All Rights Reserved</span>
-        </p>
+    <div className="p-5 border border-gray-500 bg-gray-900 flex flex-col lg:flex-row justify-between items-start lg:items-center lg:px-32">
+      <div className="mb-4 lg:mb-0 flex items-center">
+        <a
+          href="https://www.linkedin.com/in/sagar-kanungo-9610aa11a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
+          className="border border-gray-600 p-4 w-12 h-12 flex items-center justify-center rounded-full hover:bg-blue-500 transition duration-300 transform hover:-translate-y-2"
+          target="_blank" 
+          rel="noopener noreferrer" 
+        >
+          <FontAwesomeIcon icon={faLinkedinIn} className="text-2xl text-white" />
+        </a>
+        <div className="ml-4 text-white">
+          <p className="text-sm">Email:  <a href="mailto:your-email@example.com" className="hover:text-blue-600 underline">sagarkanungo23@gmail.com</a></p> {/* Replace with your email */}
+          <p className="text-sm">Phone:  <a href="tel:+1234567890" className="hover:text-blue-600 underline">+91 6264531002</a></p> {/* Replace with your phone number */}
+        </div>
       </div>
-      <div className="space-y-4 lg:space-y-0  flex flex-col  lg:space-x-5 lg:flex lg:flex-row font-serif">
-        <Link href="#about" className="hover:text-orange-600 underline">
-          About
-        </Link>
-        <Link href="/privacy" className="hover:text-orange-600 underline">
-          Privacy Policy
-        </Link>
-        <Link href="/licensing" className="hover:text-orange-600 underline">
-          Licensing
-        </Link>
-        <Link href="#contact" className="hover:text-orange-600 underline">
-          Contact
-        </Link>
+      <div className="space-y-4 lg:space-y-0 flex flex-col lg:space-x-5 lg:flex lg:flex-row font-serif">
+        <Link href="#about" className="hover:text-blue-600 underline">About</Link>
+        <Link href="/privacy" className="hover:text-blue-600 underline">Privacy Policy</Link>
+        <Link href="/licensing" className="hover:text-blue-600 underline">Licensing</Link>
+        <Link href="#contact" className="hover:text-blue-600 underline">Contact</Link>
       </div>
     </div>
   )
 }
 
 export default Footer
-// [
-//   {
-//       "$match": {
-//           "Description": {
-//               "$regex": ".*(Created|Moved|Cancelled|Updated).*"
-//           },
-//           "$expr": {
-//               "$cond": {
-//                   "if": { "$and": [{ "$eq": ["{{dateRange1.value.start}}", ""] }, { "$eq": ["{{dateRange1.value.end}}", ""] }] }, 
-//                   "then": true,
-//                   "else": { 
-//                       "$and": [
-//                           { "$gte": ["$Booking Date", "{{dateRange1.value.start}}"] },
-//                           { "$lte": ["$Booking Date", "{{dateRange1.value.end}}"] }
-//                       ]
-//                   } 
-//               }
-//           }
-//       }
-//   },
-//   {
-//       "$group": {
-//           "_id": null,
-//           "totalCreated": {
-//               "$sum": {
-//                   "$cond": [{ "$regexMatch": { "input": "$Description", "regex": "Created" } }, 1, 0]
-//               }
-//           },
-//           "totalMoved": {
-//               "$sum": {
-//                   "$cond": [{ "$regexMatch": { "input": "$Description", "regex": "Moved" } }, 1, 0]
-//               }
-//           },
-//           "totalCancelled": {
-//               "$sum": {
-//                   "$cond": [{ "$regexMatch": { "input": "$Description", "regex": "Cancelled" } }, 1, 0]
-//               }
-//           },
-//           "totalUpdated": {
-//               "$sum": {
-//                   "$cond": [{ "$regexMatch": { "input": "$Description", "regex": "Updated" } }, 1, 0]
-//               }
-//           }
-//       }
-//   },
-//   {
-//       "$project": {
-//           "_id": 0,
-//           "data": [
-//               {
-//                   "title": "Created",
-//                   "count": "$totalCreated"
-//               },
-//               {
-//                   "title": "Moved",
-//                   "count": "$totalMoved"
-//               },
-//               {
-//                   "title": "Cancelled",
-//                   "count": "$totalCancelled"
-//               },
-//               {
-//                   "title": "Updated",
-//                   "count": "$totalUpdated"
-//               }
-//           ]
-//       }
-//   }
-// ]
+

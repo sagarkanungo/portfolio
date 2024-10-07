@@ -13,7 +13,7 @@ function ServiceSection() {
   };
 
   return (
-    <div id="serviceSection" className="p-8 lg:px-42">
+    <div id="ServiceSection" className="p-8 lg:px-42">
       <h1 className="text-center  font-semibold text-2xl font-serif">
         My Services & Projects
       </h1>
